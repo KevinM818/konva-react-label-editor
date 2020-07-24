@@ -1,11 +1,12 @@
 import React, {useState, useRef, useEffect} from 'react';
+import DrawShapes from './../helpers/DrawShapes';
 
 const imageShapes = [
-  {shapeForm: 'vertRect', title: '3x4 Rounded Corner', width: 820, height: 860},
-  {shapeForm: 'crest', title: '4.5 x 3.4 Crest', width: 817, height: 857},
-  {shapeForm: 'rect', title: '4x3 Rounded Corner', width: 860, height: 820},
-  {shapeForm: 'circle', title: '3.5 x 3.5 Circle', width: 817, height: 817},
-  {shapeForm: 'diamond', title: '3.75 x 4.75 Diamond', width: 825, height: 857},
+  {shapeForm: 'vertRect', title: '3x4 Rounded Corner', width: 140, height: 160},
+  {shapeForm: 'crest', title: '4.5 x 3.4 Crest', width: 120, height: 150},
+  {shapeForm: 'rect', title: '4x3 Rounded Corner', width: 160, height: 140},
+  {shapeForm: 'circle', title: '3.5 x 3.5 Circle', width: 140, height: 140},
+  {shapeForm: 'diamond', title: '3.75 x 4.75 Diamond', width: 120, height: 160},
 ];
 
 const ImageShapes = ({image}) => {
@@ -19,36 +20,17 @@ const ImageShapes = ({image}) => {
     const img = new Image();
     img.src = image;
     ctx.save();
-
     if (shape.shapeForm === 'crest') {
-
+      DrawShapes.crest(ctx, shape.width, shape.height);
     } else if (shape.shapeForm === 'diamond') {
-      
+      DrawShapes.diamond(ctx, shape.width, shape.height);
     } else if (shape.shapeForm === 'circle') {
-      ctx.arc(shape.width / 2, shape.height / 2, shape.width / 2, 0, 2 * Math.PI);
+      DrawShapes.circle(ctx, shape.width, shape.height);
     } else {
-      const halfRadians = (2 * Math.PI)/2
-      const quarterRadians = (2 * Math.PI)/4  
-      const rounded = 10;
-      ctx.arc(rounded, rounded, rounded, -quarterRadians, halfRadians, true);
-      ctx.lineTo(0, shape.height - rounded);
-      ctx.arc(rounded, shape.height - rounded, rounded, halfRadians, quarterRadians, true);
-      ctx.lineTo(shape.width - rounded, shape.height);
-      ctx.arc(shape.width - rounded, shape.height - rounded, rounded, quarterRadians, 0, true);
-      ctx.lineTo(shape.width, rounded);
-      ctx.arc(shape.width - rounded, rounded, rounded, 0, -quarterRadians, true);
-      ctx.lineTo(rounded, 0);
+      DrawShapes.roundedRect(ctx, shape.width, shape.height);
     }
     ctx.clip();
-    img.onload = () => {
-      const width = img.width;
-      const height = img.height;
-      const scale = Math.max(shape.width / width, shape.height / height);
-      const x = (shape.width / 2) - (width / 2) * scale;
-      const y = (shape.height / 2) - (height / 2) * scale;
-      ctx.drawImage(img, x, y, width * scale, height * scale);
-      ctx.restore();
-    };
+    img.onload = () => DrawShapes.drawImage(ctx, img, shape.width, shape.height);
   }));
 
   if (!image) {return '';}
@@ -63,7 +45,14 @@ const ImageShapes = ({image}) => {
           </div>
           <div className='ImageShapes__shapeInfo'>
             <h3>{shape.title}</h3>
-            <button onClick={() => selectedShape(shape.shapeForm)}>
+            <button onClick={() => {
+              selectShape(shape.shapeForm);
+              const canvas = refs.current[index].current;
+              const link = document.createElement('a');
+              link.download = 'label.png';
+              link.href = canvas.toDataURL();
+              link.click();
+            }}>
               {selectedShape === shape.shapeForm ? 'selected' : 'select'}
             </button>
           </div>
