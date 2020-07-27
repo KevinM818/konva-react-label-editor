@@ -1,8 +1,10 @@
 import React, {Fragment, useState} from 'react';
 import ImageShapes from './ImageShapes';
+import Editor from './Editor';
 
 const UploadPhoto = () => {
   const [imageSrc, setImageSrc] = useState('');
+  const [selectedLabel, setSelectedLabel] = useState();
 
   const onChange = e => {
     const reader = new FileReader();
@@ -14,7 +16,8 @@ const UploadPhoto = () => {
   
   return (
     <Fragment>
-      <ImageShapes image={imageSrc}/>
+      <Editor label={selectedLabel}/>
+      <ImageShapes image={imageSrc} onLabelSelect={(src) => setSelectedLabel(src)}/>
       <div className="UploadPhoto">
         <h3>Upload Photo</h3>
         <div className="UploadPhoto__photo">

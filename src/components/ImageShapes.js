@@ -2,14 +2,14 @@ import React, {useState, useRef, useEffect} from 'react';
 import DrawShapes from './../helpers/DrawShapes';
 
 const imageShapes = [
-  {shapeForm: 'vertRect', title: '3x4 Rounded Corner', width: 140, height: 160},
-  {shapeForm: 'crest', title: '4.5 x 3.4 Crest', width: 120, height: 150},
-  {shapeForm: 'rect', title: '4x3 Rounded Corner', width: 160, height: 140},
-  {shapeForm: 'circle', title: '3.5 x 3.5 Circle', width: 140, height: 140},
-  {shapeForm: 'diamond', title: '3.75 x 4.75 Diamond', width: 120, height: 160},
+  {shapeForm: 'vertRect', title: '3x4 Rounded Corner', width: 612.5, height: 700},
+  {shapeForm: 'crest', title: '4.5 x 3.4 Crest', width: 560, height: 700},
+  {shapeForm: 'rect', title: '4x3 Rounded Corner', width: 800, height: 700},
+  {shapeForm: 'circle', title: '3.5 x 3.5 Circle', width: 700, height: 700},
+  {shapeForm: 'diamond', title: '3.75 x 4.75 Diamond', width: 525, height: 700},
 ];
 
-const ImageShapes = ({image}) => {
+const ImageShapes = ({image, onLabelSelect}) => {
   const [selectedShape, selectShape] = useState('');
   const refs = useRef(imageShapes.map(i => React.createRef()));
 
@@ -48,10 +48,8 @@ const ImageShapes = ({image}) => {
             <button onClick={() => {
               selectShape(shape.shapeForm);
               const canvas = refs.current[index].current;
-              const link = document.createElement('a');
-              link.download = 'label.png';
-              link.href = canvas.toDataURL();
-              link.click();
+              const src = canvas.toDataURL();
+              onLabelSelect(src);
             }}>
               {selectedShape === shape.shapeForm ? 'selected' : 'select'}
             </button>
