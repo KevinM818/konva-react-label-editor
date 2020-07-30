@@ -44,5 +44,14 @@ export default {
     const y = (height / 2) - (imgHeight / 2) * scale;
     ctx.drawImage(img, x, y, imgWidth * scale, imgHeight * scale);
     ctx.restore();
+  },
+  drawImageToFit(ctx, img, width, height) {
+    const imgWidth = img.width;
+    const imgHeight = img.height;
+    const scale = Math.min(width / imgWidth, height / imgHeight);
+    const x = (width / 2) - (imgWidth / 2) * scale;
+    const y = (height / 2) - (imgHeight / 2) * scale;
+    ctx.drawImage(img, x, y, imgWidth * scale, imgHeight * scale);
+    ctx.restore();
   }
 }
