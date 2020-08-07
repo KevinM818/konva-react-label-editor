@@ -1,1 +1,30 @@
-img {max-width: 300px;}
+.ImageShapes {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.ImageShapes__shapeWrap {
+  display: flex;
+  width: 34%;
+}
+
+.ImageShapes__shape {
+  width: 200px;
+}
+
+.ImageShapes__shape canvas {
+  max-width: 100%;
+}
+
+.Editor__canvasLayers {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-family: liana;
+}
+
+.canvas-container {display: flex;}
+.canvas-container canvas {max-width: 100%;}

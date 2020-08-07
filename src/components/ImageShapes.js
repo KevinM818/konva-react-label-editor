@@ -2,11 +2,11 @@ import React, {useState, useRef, useEffect} from 'react';
 import DrawShapes from './../helpers/DrawShapes';
 
 const imageShapes = [
-  {shapeForm: 'vertRect', title: '3x4 Rounded Corner', width: 612.5, height: 700},
-  {shapeForm: 'crest', title: '4.5 x 3.4 Crest', width: 560, height: 700},
-  {shapeForm: 'rect', title: '4x3 Rounded Corner', width: 800, height: 700},
-  {shapeForm: 'circle', title: '3.5 x 3.5 Circle', width: 700, height: 700},
-  {shapeForm: 'diamond', title: '3.75 x 4.75 Diamond', width: 525, height: 700},
+  {shapeForm: 'vertRect', title: '3x4 Rounded Corner', width: 900, height: 1200},
+  {shapeForm: 'crest', title: '4.5 x 3.4 Crest', width: 1350, height: 1050},
+  {shapeForm: 'rect', title: '4x3 Rounded Corner', width: 1200, height: 900},
+  {shapeForm: 'circle', title: '3.5 x 3.5 Circle', width: 1050, height: 1050},
+  {shapeForm: 'diamond', title: '3.75 x 4.75 Diamond', width: 1125, height: 1425},
 ];
 
 const ImageShapes = ({image, onLabelSelect, confirm}) => {
@@ -35,7 +35,6 @@ const ImageShapes = ({image, onLabelSelect, confirm}) => {
 
   return (
     <div className='ImageShapes'>
-      <h3>Choose Shape</h3>
       {imageShapes.map((shape, index) => (
         <div className='ImageShapes__shapeWrap' key={shape.shapeForm}>
           <div className='ImageShapes__shape'>
