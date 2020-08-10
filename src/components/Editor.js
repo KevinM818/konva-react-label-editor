@@ -1,13 +1,13 @@
-import React, {useRef, useEffect, useState, useReducer} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {Stage, Layer, Image} from 'react-konva';
 import uniqid from 'uniqid';
 import EditorControls from './EditorControls';
 import DraggableImages from './DraggableImage';
-import useEvent from './../helpers/useEvent';
-// import DrawShapes from './../helpers/DrawShapes';
+import DrawShapes from './../helpers/DrawShapes';
 const caman = window.Caman;
 
 const Editor = ({label}) => {
+  const [mainImage, setMainImage] = useState(label);
   const [stageDimensions, setStageDimensions] = useState({width: 0, height: 0});
   const [images, setImages] = useState([]);
   const [selectedImage, selectImage] = useState();
@@ -15,30 +15,59 @@ const Editor = ({label}) => {
   const stageRef = useRef();
   const getDimensions = useRef();
   const mainLayer = useRef();
+  const imageLayer = useRef();
 
   const checkSize = () => setStageDimensions({
     width: getDimensions.current.offsetWidth,
     height: getDimensions.current.offsetHeight
   });
-  
 
   const filterSelect = filter => {
-    // caman(canvasRef.current, label, function() {
+    const canvas = document.createElement('canvas');
+    canvas.width = label.width;
+    canvas.height = label.height;
+    const ctx = canvas.getContext('2d');
+    DrawShapes.drawImageToFit(ctx, label, label.width, label.height);
+    caman(canvas, label, function(){
+      this[filter]().render();
+      setTimeout(() => {
+
+
+        const img = new window.Image();
+        img.src = canvas.toDataURL();
+        img.onload = () => {
+          console.log('HERE');
+          document.body.prepend(img);
+          setMainImage(img)
+        };
+
+      }, 3000);
+
+
+
+    });
+    // const canvas = mainLayer.current.canvas._canvas;
+    // caman(canvas, label, function() {
     //   this.revert();
     //   if (!filter) {return;}
     //   this[filter]().render();
-    // })
+    // });
   }
 
   const iconSelect = icon => {
     const image = new window.Image();
     image.src = icon;
-    image.onload = () => setImages([...images, {x: 30, y: 30, id: uniqid(), image}]);
+    image.onload = () => setImages([...images, {
+      image,
+      x: 30,
+      y: 30,
+      width: image.width,
+      height: image.height,
+      id: uniqid(),
+    }]);
   }
 
-  const checkDeselect = e => {
-    console.log(e.target);
-  }
+  const checkDeselect = e => e.target.attrs.id === 'mainImage' ? selectImage(null) : ''
 
   useEffect(() => {
     if (getDimensions.current.offsetWidth === stageDimensions.width) {return;}
@@ -62,18 +91,22 @@ const Editor = ({label}) => {
               y={0}
               width={stageDimensions.width}
               height={stageDimensions.height}
-              image={label}
+              image={mainImage}
               id='mainImage'
             />
           </Layer>
-          <Layer>
+          <Layer ref={imageLayer}>
             {images.map((image, i) => (
               <DraggableImages
                 key={i}
                 imageProps={image}
                 isSelected={image.id === selectedImage}
                 onSelect={() => selectImage(image.id)}
-
+                onChange={newAttrs => {
+                  const imgs = images.slice();
+                  imgs[i] = newAttrs;
+                  setImages(imgs);
+                }}
               />
             ))}
           </Layer>

@@ -36,9 +36,14 @@ h1 {
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
+  position: relative;
 }
 
 .getStageDimensions {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -1;
   max-width: 100%;
 }
 
