@@ -14,8 +14,6 @@ const Editor = ({label}) => {
 
   const stageRef = useRef();
   const getDimensions = useRef();
-  const mainLayer = useRef();
-  const imageLayer = useRef();
 
   const checkSize = () => setStageDimensions({
     width: getDimensions.current.offsetWidth,
@@ -29,29 +27,15 @@ const Editor = ({label}) => {
     const ctx = canvas.getContext('2d');
     DrawShapes.drawImageToFit(ctx, label, label.width, label.height);
     caman(canvas, label, function(){
-      this[filter]().render();
-      setTimeout(() => {
-
-
+      this[filter]().render(() => {
         const img = new window.Image();
         img.src = canvas.toDataURL();
         img.onload = () => {
-          console.log('HERE');
-          document.body.prepend(img);
-          setMainImage(img)
-        };
-
-      }, 3000);
-
-
-
+          setMainImage(img);
+          canvas.remove();
+        }
+      });
     });
-    // const canvas = mainLayer.current.canvas._canvas;
-    // caman(canvas, label, function() {
-    //   this.revert();
-    //   if (!filter) {return;}
-    //   this[filter]().render();
-    // });
   }
 
   const iconSelect = icon => {
@@ -85,7 +69,7 @@ const Editor = ({label}) => {
           onTouchStart={checkDeselect}
           ref={stageRef}
         >
-          <Layer ref={mainLayer}>
+          <Layer>
             <Image
               x={0}
               y={0}
@@ -95,7 +79,7 @@ const Editor = ({label}) => {
               id='mainImage'
             />
           </Layer>
-          <Layer ref={imageLayer}>
+          <Layer>
             {images.map((image, i) => (
               <DraggableImages
                 key={i}
