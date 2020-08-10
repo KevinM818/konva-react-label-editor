@@ -28,3 +28,30 @@ h1 {
 
 .canvas-container {display: flex;}
 .canvas-container canvas {max-width: 100%;}
+
+
+
+
+.StageWrapper {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.getStageDimensions {
+  max-width: 100%;
+}
+
+/* .konvajs-content {
+  width: 100% !important;
+  height: auto !important;
+} */
+
+/* .konvajs-content .mainCanvasLayer {
+  position: relative !important;
+} */
+
+/* .konvajs-content canvas {
+  width: 100% !important;
+  height: 100% !important;
+} */
