@@ -5,6 +5,7 @@ import Editor from './components/Editor';
 
 const App = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const [labelShape, setLabelShape] = useState('');
   const [labelImage, setLabelImage] = useState('');
   
   return (
@@ -22,13 +23,15 @@ const App = () => {
         activeStep === 2 ?
           <ImageShapes
             image={labelImage}
-            onLabelSelect={imgSrc => {
+            onLabelSelect={(imgSrc, shapeForm) => {
+              setLabelShape(shapeForm);
               setLabelImage(imgSrc);
               setActiveStep(3);
             }}
           /> :
         activeStep === 3 ?
           <Editor
+            shape={labelShape}
             label={labelImage}
           /> : ''
       }

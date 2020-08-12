@@ -24,6 +24,9 @@
 
 h1 {
   font-family: liana;
+  /* font-family: ivymode; */
+  /* font-family: mr-eaves-modern; */
+  font-weight: normal;
 }
 
 .canvas-container {display: flex;}

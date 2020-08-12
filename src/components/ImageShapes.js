@@ -9,7 +9,7 @@ const imageShapes = [
   {shapeForm: 'diamond', title: '3.75 x 4.75 Diamond', width: 1125, height: 1425},
 ];
 
-const ImageShapes = ({image, onLabelSelect, confirm}) => {
+const ImageShapes = ({image, onLabelSelect}) => {
   const [selectedShape, selectShape] = useState('');
   const refs = useRef(imageShapes.map(i => React.createRef()));
 
@@ -48,7 +48,7 @@ const ImageShapes = ({image, onLabelSelect, confirm}) => {
               const src = canvas.toDataURL();
               const img = new Image();
               img.src = src;
-              img.onload = () => onLabelSelect(img);
+              img.onload = () => onLabelSelect(img, shape.shapeForm);
             }}>
               {selectedShape === shape.shapeForm ? 'selected' : 'select'}
             </button>
