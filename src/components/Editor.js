@@ -87,10 +87,7 @@ const Editor = ({label, shape}) => {
     }]);
   }
 
-  const checkDeselect = e => {
-    console.log(e.target);
-    e.target.attrs.id === 'mainImage' && selectElement(null)
-  }
+  const checkDeselect = e => e.target.attrs.id === 'mainImage' && selectElement(null);
 
   useEffect(() => {
     if (getDimensions.current.offsetWidth === stageDimensions.width) {return;}

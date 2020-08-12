@@ -42,7 +42,6 @@ const DraggableText = ({textProps, isSelected, onSelect, onChange}) => {
       {isSelected && (
         <Transformer
           ref={trRef}
-          keepRatio
           enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
           boundBoxFunc={(oldBox, newBox) => {
             if (newBox.width < 5 || newBox.height < 5) {return oldBox;}
